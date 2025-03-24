@@ -4,15 +4,26 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BlogIndex from './src/screens/BlogIndex';
 import  { Provider} from './src/context/BlogContext'
+import ShowBlog from './src/screens/ShowBlog';
+import CreateBlog from './src/screens/CreateBlog';
+
 
 const Stack = createNativeStackNavigator();
 
 const AppContents = () => {
-  console.log(Provider);
+ 
   return (
         <NavigationContainer>
           <Stack.Navigator initialRouteName="BlogList">  
-            <Stack.Screen name="BlogList" component={BlogIndex} options={{ title: "Blog List" }} />
+            <Stack.Screen name="BlogList" component={BlogIndex} options=
+            {
+              { title: "Blog List" , 
+                 
+              } 
+            } />
+            <Stack.Screen name="BlogDetails" component={ShowBlog} options={{ title: "Show Blog" }} />
+            <Stack.Screen name="CreateBlog" component={CreateBlog} options={{ title: "Create Blog" }} />
+            
           </Stack.Navigator>
         </NavigationContainer>
      
