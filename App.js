@@ -6,6 +6,7 @@ import BlogIndex from './src/screens/BlogIndex';
 import  { Provider} from './src/context/BlogContext'
 import ShowBlog from './src/screens/ShowBlog';
 import CreateBlog from './src/screens/CreateBlog';
+import EditBlog from './src/screens/EditBlog';
 
 
 const Stack = createNativeStackNavigator();
@@ -23,6 +24,7 @@ const AppContents = () => {
             } />
             <Stack.Screen name="BlogDetails" component={ShowBlog} options={{ title: "Show Blog" }} />
             <Stack.Screen name="CreateBlog" component={CreateBlog} options={{ title: "Create Blog" }} />
+            <Stack.Screen name="EditBlog" component={EditBlog} options={{ title: "Edit Blog" }} />
             
           </Stack.Navigator>
         </NavigationContainer>

@@ -1,45 +1,34 @@
 import React ,{useContext, useState} from "react";
-import {View,Text,StyleSheet, TextInput} from 'react-native';
-
+import {View,Text,StyleSheet, Button, TextInput} from 'react-native';
+import { Context } from "../context/BlogContext";
+import BlongContents from "../components/BlogContents";
 const CreateBlog=(props)=>{
-    const [title, setTitle]= useState();
-    const [content, setCotent]= useState();
-    return (
-            <View>
-                 <Text 
-                    style ={styles.textContainer}
-                 > 
-                 Blog Title </Text>  
-                 <TextInput 
-                    style = {styles.inputContainer}
-                    placeholder="Enter Blog title here" 
-                    value ={title}
-                    onChangeText={(text)=> setTitle(text)}
-                    />
-                 <Text
-                    style = {styles.textContainer}
-                 > Blog Content </Text>  
-                 <TextInput 
-                    style = {styles.inputContainer}
-                    placeholder="Enter Blog Content here"
-                    value ={content}
-                    onChangeText={(content)=> setCotent(content)}
-                    />
-     
-            </View>
-    );
+    const {addBlogPost} = useContext(Context);
+    
+    const handleSubmit =(post)=>{
+        addBlogPost(post, 
+            ()=> props.navigation.navigate("BlogList") 
+        );
+    };
 
+    return(
+        <BlongContents onSubmit = {handleSubmit} />
+    )
 };
 
 const styles = StyleSheet.create({
     inputContainer : {
         fontSize: 16,
         borderWidth : 1,
-        borderColor:'black'
+        borderColor:'black',
+        marginBottom : 15,
+        margin :5,
+        padding:5
     },
     textContainer :{
         fontSize :20,
-        marginBottom:10
+        marginBottom:5,
+        marginLeft : 5
     }
 });
 export default CreateBlog;

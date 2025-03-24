@@ -4,10 +4,8 @@ import { Context } from "../context/BlogContext"; // Ensure correct import
 import Feather from '@expo/vector-icons/Feather';
 
 const BlogIndex =(props)=>{
-      console.log(props);
       const { state, addBlogPost, clearPosts,deletePost } = useContext(Context);
       const onAddBlog =(id)=>{
-                console.log(id);
                 props.navigation.navigate("BlogDetails",{id});
       };
       useEffect(()=>{
@@ -38,7 +36,6 @@ const BlogIndex =(props)=>{
                                         <Feather name ="trash" 
                                         style ={styles.iconContainer} 
                                         onPress={()=>{
-                                                console.log("on press" + item.id);
                                        
                                                 deletePost(item.id)
                                         }}
