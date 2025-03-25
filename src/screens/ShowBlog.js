@@ -9,11 +9,12 @@ const ShowBlog =(props)=>{
     const {state} = useContext(Context);
     const { id } = route.params || {};
     const blog = state.find ((post)=> post.id === id);
+    console.log(JSON.stringify(blog));
     useEffect(()=>{
         props.navigation.setOptions({
                 headerRight: () => (
                     <TouchableOpacity 
-                                        onPress={() => props.navigation.navigate("EditBlog")} 
+                                        onPress={() => props.navigation.navigate("EditBlog", {id})} 
                                         style={{ marginRight: 15 }}>
                         <Feather name="edit" size={24} color="black" />
                     </TouchableOpacity>

@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import  {View, TextInput, Text, StyleSheet} from 'react-native';
+import { useRoute } from "@react-navigation/native";
+
 import BlongContents from "../components/BlogContents";
-
+import { Context } from "../context/BlogContext";
 const EditBlog =(props)=>{
+    const {state, editBlogPost}  = useContext(Context);
+    const route = useRoute();
+    const { id } = route.params || {};
+    const blog = state.find ((post)=> post.id === id);
+    const hanldeOnSubmit =(post)=>{
+        try{
+            post.id = id;
+       
+            editBlogPost(post, ()=> {
+               props.navigation.pop();
+            });
 
-    return (<BlongContents />);
+        }
+        catch(error){
+            console.log("eror" + error);
+        }
+       
+    };
+    
+    return (<BlongContents  onSubmit ={hanldeOnSubmit}  initialValues = {blog}/>);
 
 }
 

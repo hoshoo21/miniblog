@@ -3,10 +3,8 @@ import  {View, TextInput, Text, Button, StyleSheet} from 'react-native';
 
 
 const BlongContents =(props)=>{
-    
-    const [title, setTitle]= useState();
-    const [content, setContent]= useState();
-
+    const [title, setTitle]= useState(props.initialValues?props.initialValues.title: "" );
+    const [content, setContent]= useState(props.initialValues?props.initialValues.content : "" );
     return (
         <View>
                  <Text 
@@ -39,6 +37,11 @@ const BlongContents =(props)=>{
     )
 }
 
+BlongContents.defaultProps= {
+    initialValues:  {
+        title : "",
+        content : ""
+}}
 
 const styles = StyleSheet.create({
     inputContainer : {
