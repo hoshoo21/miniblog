@@ -37,11 +37,6 @@ const BlongContents =(props)=>{
     )
 }
 
-BlongContents.defaultProps= {
-    initialValues:  {
-        title : "",
-        content : ""
-}}
 
 const styles = StyleSheet.create({
     inputContainer : {

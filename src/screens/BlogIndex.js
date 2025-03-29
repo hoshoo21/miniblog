@@ -8,6 +8,7 @@ const BlogIndex =(props)=>{
       const onAddBlog =(id)=>{
                 props.navigation.navigate("BlogDetails",{id});
       };
+
       useEffect(()=>{
         props.navigation.setOptions({
                 headerRight: () => (

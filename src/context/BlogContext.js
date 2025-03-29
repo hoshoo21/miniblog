@@ -1,12 +1,25 @@
-import createDataContext from "./createDataContext"; 
-const blogReducer =(state, action)=>{
+import createDataContext from './createDataContext';
+import SupabaseHelper  from "../dbHelper/SupabaseHelper"; 
+
+const blogReducer =async (state, action)=>{
     
  
     switch (action.type){
         case "add_post": 
-        return [...state,  {id : Math.floor(Math.random() *99999),
-                 title : action.payload.title,
-                content : action.payload.content}  ]
+        try 
+        {
+            const { data, error } = await SupabaseHelper
+            .from("blogs")
+            .insert([{ id :Math.floor(Math.random() *99999), 
+                        title: action.payload.title, 
+                        content: action.payload.content }]);
+        }
+        catch(error){
+            console.log(error);
+        }
+        // return [...state,  {id : Math.floor(Math.random() *99999),
+        //          title : action.payload.title,
+        //         content : action.payload.content}  ]
         case "delete_post":
 
             state =state.filter ((post)=>{
@@ -76,5 +89,5 @@ const addBlogPost = (dispatch)=>{
  } 
 export const  {Context, Provider} = createDataContext(blogReducer, 
     {addBlogPost, clearPosts,deletePost,editBlogPost}, 
-    [{id : Math.floor(Math.random() * 99999), title :"test title" , content :'test content'}]
+    []
 );
