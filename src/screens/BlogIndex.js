@@ -1,15 +1,17 @@
-import React, {useContext, useEffect} from "react";
+import React, {useCallback, useContext, useEffect} from "react";
 import {Text,View, StyleSheet, Button,  FlatList, TouchableOpacity} from 'react-native';
 import { Context } from "../context/BlogContext"; // Ensure correct import
 import Feather from '@expo/vector-icons/Feather';
+import { useFocusEffect } from "@react-navigation/native";
 
 const BlogIndex =(props)=>{
-      const { state, addBlogPost, clearPosts,deletePost } = useContext(Context);
+      const { state, dispatch, addBlogPost, clearPosts,deletePost,getBlogPosts } = useContext(Context);
       const onAddBlog =(id)=>{
                 props.navigation.navigate("BlogDetails",{id});
       };
 
       useEffect(()=>{
+     
         props.navigation.setOptions({
                 headerRight: () => (
                     <TouchableOpacity 
@@ -17,9 +19,18 @@ const BlogIndex =(props)=>{
                                         style={{ marginRight: 15 }}>
                         <Feather name="plus" size={24} color="black" />
                     </TouchableOpacity>
+                    
                 ),
             });
       },[props.navigation]);
+   
+      useFocusEffect(
+        useCallback(() => {
+            console.log("Screen focused, fetching blog posts...");
+            getBlogPosts();  // ✅ Call function when screen is focused
+        }, [])
+    )
+
       return (
              <View>
                 {
@@ -37,7 +48,7 @@ const BlogIndex =(props)=>{
                                         <Feather name ="trash" 
                                         style ={styles.iconContainer} 
                                         onPress={()=>{
-                                       
+                                                console.log("deleting post");
                                                 deletePost(item.id)
                                         }}
                                         />
@@ -73,7 +84,8 @@ const styles=  StyleSheet.create({
         fontSize : 16
      },
      iconContainer : {
-        fontSize : 24
+        fontSize : 24,
+        marginRight:10,
      }
 });
 

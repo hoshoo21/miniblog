@@ -1,25 +1,15 @@
 import createDataContext from './createDataContext';
-import SupabaseHelper  from "../dbHelper/SupabaseHelper"; 
+import {SupabaseHelper}  from "../dbHelper/SupabaseHelper"; 
 
-const blogReducer =async (state, action)=>{
+const blogReducer = (state, action)=>{
     
  
     switch (action.type){
+        case "get_blogposts":
+            return action.payload;
         case "add_post": 
-        try 
-        {
-            const { data, error } = await SupabaseHelper
-            .from("blogs")
-            .insert([{ id :Math.floor(Math.random() *99999), 
-                        title: action.payload.title, 
-                        content: action.payload.content }]);
-        }
-        catch(error){
-            console.log(error);
-        }
-        // return [...state,  {id : Math.floor(Math.random() *99999),
-        //          title : action.payload.title,
-        //         content : action.payload.content}  ]
+            console.log(action);
+            return state;
         case "delete_post":
 
             state =state.filter ((post)=>{
@@ -53,12 +43,57 @@ const blogReducer =async (state, action)=>{
 }
 
 const addBlogPost = (dispatch)=>{
-    return(post, callBack) =>{
-        dispatch({type:'add_post', payload:{title : post.title, content : post.content}}) 
-        callBack();
+    
+    return async (post, callBack) =>{
+        try 
+        {
+            console.log(JSON.stringify(post));
+            const { data, error } = await SupabaseHelper
+            .from("blogs")
+            .insert([
+              { 
+                id: Math.floor(Math.random() * 99999), 
+                title: post.title, 
+                content: post.content 
+              }
+            ]);
+
+          
+          if (error) {
+            console.error("Error inserting data:", error.message);
+          } else {
+            console.log("Data inserted successfully:", data);
+            //dispatch({type:'add_post', payload:{title : post.title, content : post.content}}) 
+            callBack();
+         
+          }
+        }
+        catch(error){
+            console.log(error);
+        }
     };
 
  }
+ const getBlogPosts =(dispatch)=>{
+        return  async()=>{
+            const { data, error } = await SupabaseHelper
+            .from('blogs')
+            .select('*')
+            .order('id', { ascending: true })
+            if (error)
+            {
+                    console.log('error', error);
+            }
+            else 
+            {
+                console.log(data);
+                dispatch({type :"get_blogposts" , payload :data   });
+
+            }
+        }
+ }
+
+
  const editBlogPost =(dispatch)=>{
         return (post, callBack)=> {
             try{
@@ -75,7 +110,9 @@ const addBlogPost = (dispatch)=>{
         };
  }
  const deletePost = (dispatch )=>{
-    return(id) =>{
+    
+    return async(id) =>{
+        await SupabaseHelper.from('blogs').delete().eq('id', id).throwOnError()
         dispatch({type:'delete_post', payload : id}); 
 
     };
@@ -88,6 +125,6 @@ const addBlogPost = (dispatch)=>{
     };
  } 
 export const  {Context, Provider} = createDataContext(blogReducer, 
-    {addBlogPost, clearPosts,deletePost,editBlogPost}, 
+    {addBlogPost, clearPosts,deletePost,editBlogPost,getBlogPosts}, 
     []
 );

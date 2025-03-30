@@ -6,6 +6,7 @@ const CreateBlog=(props)=>{
     const {addBlogPost} = useContext(Context);
     
     const handleSubmit =(post)=>{
+        console.log("hanlde submit");
         addBlogPost(post, 
             ()=> props.navigation.navigate("BlogList") 
         );
