@@ -95,8 +95,12 @@ const addBlogPost = (dispatch)=>{
 
 
  const editBlogPost =(dispatch)=>{
-        return (post, callBack)=> {
+        return  async (post, callBack)=> {
             try{
+             const { data, error } = await SupabaseHelper
+            .from('blogs')
+            .update({"title": post.title, "content": post.content})
+            .eq("id", post.id)    
             dispatch({type :"edit_post", payload:{
                 id : post.id, 
                 title : post.title, 
